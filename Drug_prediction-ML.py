@@ -151,7 +151,6 @@ y_manual = manual_dtfm["Activity_values"]
 manual_preds = rf_model.predict(x_manual)
 
 # Evaluate performance
-
 print("Manual Test Accuracy:", accuracy_score(y_manual, manual_preds))
 print("\nConfusion Matrix:\n", confusion_matrix(y_manual, manual_preds))
 print("\nClassification Report:\n", classification_report(y_manual, manual_preds))
