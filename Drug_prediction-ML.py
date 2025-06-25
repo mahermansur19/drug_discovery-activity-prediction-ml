@@ -132,7 +132,7 @@ plt.figure(figsize=(6, 5))
 sns.heatmap(cfmx_randtest, annot=True, fmt='d', cfmxap='Blues', xticklabels=labels, yticklabels=labels)
 plt.xlabel('Predicted Label')
 plt.ylabel('True Label')
-plt.title('Confusion Matrix (Train Set)')
+plt.title('Confusion Matrix (Random Test Set)')
 plt.tight_layout()
 
 # Show training results
