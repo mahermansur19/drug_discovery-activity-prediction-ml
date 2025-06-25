@@ -1,62 +1,78 @@
-# Molecular Activity Prediction Using Random Forest (SARS-CoV-2 Case Study)
+# Molecular Activity Prediction (SARS-CoV-2 Case Study)
 
-This project predicts whether a small molecule is biologically active or inactive against SARS-CoV-2, using classical machine learning techniques based on cheminformatics features.
+This project predicts whether a small molecule is biologically active or inactive against SARS-CoV-2, using classical machine learning and deep learning techniques based on cheminformatics features.
 
-## 🧪 Overview
+## Models Applied
 
-- **Type**: Binary classification (`Active` vs `Inactive`)
-- **Technique**: Classical ML using `RandomForestClassifier` from scikit-learn
-- **Features Used**:
-  - 8 RDKit descriptors (e.g. MolWt, TPSA, LogP, QED)
-  - 2048-bit Morgan fingerprints
+- Random Forest Classifier (scikit-learn)
+- Multilayer Perceptron (MLP, PyTorch)
 
-## 📂 Dataset Structure
+## Data
 
-Molecules are divided into 4 sets:
-- **Training**: Used to train the model
-- **Random Test **: Selected by random split from training data
-- **Manual Test **: Manually selected for independent validation
-- **Analysis **: Used to demonstrate predictions on unseen data
+- Input: Molecule information in a spreadsheet (`Molecules.xlsx`)
+- Each row includes:
+  - SMILES string
+  - Activity label (`Active` or `Inactive`)
+  - Set tag (`Train`, `ManualTest`, `Analysis`)
+- RDKit is used to compute:
+  - Molecular descriptors (e.g., `MolWt`, `LogP`, `TPSA`, `QED`, etc.)
+  - Morgan fingerprints (2048-bit circular fingerprints)
 
-## ⚙️ Workflow
+## Feature Engineering
 
-1. **Data Preprocessing**:
-   - Removed duplicates and invalid SMILES
-   - Computed descriptors + Morgan fingerprints
+- Computed 8 molecular descriptors per molecule.
+- Generated 2048-bit Morgan fingerprints.
+- Combined all features into a single matrix (`descriptor_cols` + `fp_cols`).
 
-2. **Model Training**:
-   - Trained a Random Forest on training data
-   - Evaluated using confusion matrix and accuracy on the train and test sets
+## 1. Random Forest Classifier (scikit-learn)
 
-3. **Manual and Analysis Set Evaluation**:
-   - Predicted activity and confidence scores
-   - Computed Tanimoto similarity to active compounds
+- Performed train/test split on `Train` set (80/20).
+- Trained `RandomForestClassifier` with 100 estimators.
+- Evaluated on:
+  - Random test set
+  - Manual test set
+- Predictions made on `Analysis` set with:
+  - Predicted label (`Active` / `Inactive`)
+  - Confidence score (`predict_proba`)
+  - Max Tanimoto similarity to active training molecules
 
-## Outputs
+## 2. Multilayer Perceptron (PyTorch)
 
-- Confusion matrix (visualized with heatmap)
-- Prediction accuracy
-- Analysis output includes:
-  - Predicted activity
-  - Confidence (probability)
-  - Tanimoto similarity to training actives
+- Same input features as Random Forest.
+- MLP architecture:
+  - Input → Linear(256) → ReLU → Linear(128) → ReLU → Linear(1) → Sigmoid
+- Training:
+  - Loss function: Binary Cross-Entropy (`BCELoss`)
+  - Optimizer: Adam
+  - Epochs: 100
+- Evaluated on:
+  - Random test set
+  - Manual test set
+- Predictions made on `Analysis` set with:
+  - Predicted label
+  - Confidence score
+  - Max Tanimoto similarity
 
-## Tools & Libraries
+## Metrics and Evaluation
 
-- Python, Pandas, NumPy
-- RDKit (for chemical processing)
-- scikit-learn (for ML)
-- Matplotlib, Seaborn (for visualization)
+- Accuracy score
+- Confusion matrix (visualized with `seaborn`)
+- Classification report (precision, recall, F1-score)
 
-## Future Work
+## Dependencies
 
-- Rebuild the project in **PyTorch** using a neural network (MLP)
-- Explore deep learning on SMILES (e.g., RNN or GNN models)
-- Add more molecules for larger-scale evaluation
+- Python 
+- pandas
+- numpy
+- scikit-learn
+- torch
+- rdkit
+- matplotlib
+- seaborn
 
----
+## Author
 
-### 💡 Author Notes
+Maher Mansur
 
 This project demonstrates how cheminformatics and machine learning can be combined in drug discovery tasks, using simple and interpretable models.
 
