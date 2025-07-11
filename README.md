@@ -1,4 +1,4 @@
-# Molecular Activity Prediction (SARS-CoV-2 Case Study)
+# Molecular Activity Prediction 
 
 This project predicts whether a small molecule is biologically active or inactive against SARS-CoV-2, using classical machine learning and deep learning techniques based on cheminformatics features.
 
